@@ -5,54 +5,802 @@
 	<title>Document</title>
 </head>
 <body style="background:#000">
-	<canvas id="canvas" height="475" width="1200"></canvas>
+	<!-- <canvas id="canvas" height="475" width="1200"></canvas> -->
+	<div id="particles-js" class="sky"><canvas class="particles-js-canvas-el" width="2880" height="700" style="width: 100%; height: 100%;"></canvas></div>
 </body>
+<script src="http://s0.qhimg.com/static/24fee17ef5eeefee/zepto_touch_fx.112.js"></script>
 <script>
-	function draw() {
-		var ctx = document.getElementById('canvas').getContext('2d');
-		ctx.fillRect(0,0,500,475);
-		ctx.translate(200,200);
+// 	function draw() {
+// 		var ctx = document.getElementById('canvas').getContext('2d');
+// 		ctx.fillRect(0,0,500,475);
+// 		ctx.translate(200,200);
 
-		// Create a circular clipping path
-		//ctx.beginPath();
-		//ctx.arc(0,0,60,0,Math.PI*2,true);
-		//ctx.clip();
+// 		// Create a circular clipping path
+// 		//ctx.beginPath();
+// 		//ctx.arc(0,0,60,0,Math.PI*2,true);
+// 		//ctx.clip();
 
-		// draw background
-		// var lingrad = ctx.createLinearGradient(0,-75,0,75);
-		// lingrad.addColorStop(0, '#232256');
-		// lingrad.addColorStop(1, '#143778');
+// 		// draw background
+// 		// var lingrad = ctx.createLinearGradient(0,-75,0,75);
+// 		// lingrad.addColorStop(0, '#232256');
+// 		// lingrad.addColorStop(1, '#143778');
 
-		// ctx.fillStyle = lingrad;
-		// ctx.fillRect(-75,-75,150,150);
+// 		// ctx.fillStyle = lingrad;
+// 		// ctx.fillRect(-75,-75,150,150);
 
-		// draw stars
-		for (var j=1;j<200;j++){
-		ctx.save();
-		ctx.fillStyle = '#fff';
-		ctx.translate(Math.floor(Math.random()*1200),
-		              Math.floor(Math.random()*1200));
-		drawStar(ctx,Math.floor(Math.random()*4)+2);
-		ctx.restore();
-  		}
+// 		// draw stars
+// 		for (var j=1;j<500;j++){
+// 		ctx.save();
+// 		ctx.fillStyle = '#fff';
+// 		ctx.translate(Math.floor(Math.random()*1200),
+// 		              Math.floor(Math.random()*1200));
+// 		drawStar(ctx,Math.floor(Math.random()*4)+2);
+// 		ctx.restore();
+//   		}
   
-	}
-	function drawStar(ctx,r){
-		ctx.save();
-		ctx.beginPath()
-		ctx.moveTo(r,0);
-		for (var i=0;i<9;i++){
-			ctx.rotate(Math.PI/5);
-			if(i%2 == 0) {
-			  ctx.lineTo((r/0.525731)*0.200811,0);
-			} else {
-			  ctx.lineTo(r,0);
-			}
-		}
-		ctx.closePath();
-		ctx.fill();
-		ctx.restore();
-	}
-draw();
+// 	}
+// 	function drawStar(ctx,r){
+// 		ctx.save();
+// 		ctx.beginPath()
+// 		ctx.moveTo(r,0);
+// 		for (var i=0;i<9;i++){
+// 			ctx.rotate(Math.PI/5);
+// 			if(i%2 == 0) {
+// 			  ctx.lineTo((r/0.525731)*0.200811,0);
+// 			} else {
+// 			  ctx.lineTo(r,0);
+// 			}
+// 		}
+// 		ctx.closePath();
+// 		ctx.fill();
+// 		ctx.restore();
+// 	}
+// draw();
+// 
+// 
+// 
+// var sun = new Image();
+// var moon = new Image();
+// var earth = new Image();
+// function init(){
+//   sun.src = 'https://mdn.mozillademos.org/files/1456/Canvas_sun.png';
+//   moon.src = 'https://mdn.mozillademos.org/files/1443/Canvas_moon.png';
+//   earth.src = 'https://mdn.mozillademos.org/files/1429/Canvas_earth.png';
+//   window.requestAnimationFrame(draw);
+// }
+
+// function draw() {
+//   var ctx = document.getElementById('canvas').getContext('2d');
+
+//   ctx.globalCompositeOperation = 'destination-over';
+//   ctx.clearRect(0,0,300,300); // clear canvas
+
+//   ctx.fillStyle = 'rgba(0,0,0,0.4)';
+//   ctx.strokeStyle = 'rgba(0,153,255,0.4)';
+//   ctx.save();
+//   ctx.translate(150,150);
+
+//   // Earth
+//   var time = new Date();
+//   ctx.rotate( ((2*Math.PI)/60)*time.getSeconds() + ((2*Math.PI)/60000)*time.getMilliseconds() );
+//   ctx.translate(105,0);
+//   ctx.fillRect(0,-12,50,24); // Shadow
+//   ctx.drawImage(earth,-12,-12);
+
+//   // Moon
+//   ctx.save();
+//   ctx.rotate( ((2*Math.PI)/6)*time.getSeconds() + ((2*Math.PI)/6000)*time.getMilliseconds() );
+//   ctx.translate(0,28.5);
+//   ctx.drawImage(moon,-3.5,-3.5);
+//   ctx.restore();
+
+//   ctx.restore();
+  
+//   ctx.beginPath();
+//   ctx.arc(150,150,105,0,Math.PI*2,false); // Earth orbit
+//   ctx.stroke();
+ 
+//   ctx.drawImage(sun,0,0,300,300);
+
+//   window.requestAnimationFrame(draw);
+// }
+
+// init();
+// 
+//
+//
+//
+//
+//
+function hexToRgb(e) {
+    var t = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+    e = e.replace(t, function (e, t, n, r) {
+        return t + t + n + n + r + r
+    });
+    var n = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(e);
+    return n ? {
+        r: parseInt(n[1], 16),
+        g: parseInt(n[2], 16),
+        b: parseInt(n[3], 16)
+    } : null
+}
+function clamp(e, t, n) {
+    return Math.min(Math.max(e, t), n)
+}
+function isInArray(e, t) {
+    return t.indexOf(e) > -1
+}
+var pJS = function (e, t) {
+    var n = document.querySelector("#" + e + " > .particles-js-canvas-el");
+    this.pJS = {
+        canvas: {
+            el: n,
+            w: n.offsetWidth,
+            h: n.offsetHeight
+        },
+        particles: {
+            number: {
+                value: 400,
+                density: {
+                    enable: !0,
+                    value_area: 800
+                }
+            },
+            color: {
+                value: "#fff"
+            },
+            shape: {
+                type: "circle",
+                stroke: {
+                    width: 0,
+                    color: "#ff0000"
+                },
+                polygon: {
+                    nb_sides: 5
+                },
+                image: {
+                    src: "",
+                    width: 100,
+                    height: 100
+                }
+            },
+            opacity: {
+                value: 1,
+                random: !1,
+                anim: {
+                    enable: !1,
+                    speed: 2,
+                    opacity_min: 0,
+                    sync: !1
+                }
+            },
+            size: {
+                value: 20,
+                random: !1,
+                anim: {
+                    enable: !1,
+                    speed: 20,
+                    size_min: 0,
+                    sync: !1
+                }
+            },
+            line_linked: {
+                enable: !0,
+                distance: 100,
+                color: "#fff",
+                opacity: 1,
+                width: 1
+            },
+            move: {
+                enable: !0,
+                speed: 2,
+                direction: "none",
+                random: !1,
+                straight: !1,
+                out_mode: "out",
+                bounce: !1,
+                attract: {
+                    enable: !1,
+                    rotateX: 3e3,
+                    rotateY: 3e3
+                }
+            },
+            array: []
+        },
+        interactivity: {
+            detect_on: "canvas",
+            events: {
+                onhover: {
+                    enable: !0,
+                    mode: "grab"
+                },
+                onclick: {
+                    enable: !0,
+                    mode: "push"
+                },
+                resize: !0
+            },
+            modes: {
+                grab: {
+                    distance: 100,
+                    line_linked: {
+                        opacity: 1
+                    }
+                },
+                bubble: {
+                    distance: 200,
+                    size: 80,
+                    duration: .4
+                },
+                repulse: {
+                    distance: 200,
+                    duration: .4
+                },
+                push: {
+                    particles_nb: 4
+                },
+                remove: {
+                    particles_nb: 2
+                }
+            },
+            mouse: {}
+        },
+        retina_detect: !1,
+        fn: {
+            interact: {},
+            modes: {},
+            vendors: {}
+        },
+        tmp: {}
+    };
+    var r = this.pJS;
+    t && Object.deepExtend(r, t), r.tmp.obj = {
+        size_value: r.particles.size.value,
+        size_anim_speed: r.particles.size.anim.speed,
+        move_speed: r.particles.move.speed,
+        line_linked_distance: r.particles.line_linked.distance,
+        line_linked_width: r.particles.line_linked.width,
+        mode_grab_distance: r.interactivity.modes.grab.distance,
+        mode_bubble_distance: r.interactivity.modes.bubble.distance,
+        mode_bubble_size: r.interactivity.modes.bubble.size,
+        mode_repulse_distance: r.interactivity.modes.repulse.distance
+    }, r.fn.retinaInit = function () {
+        r.retina_detect && window.devicePixelRatio > 1 ? (r.canvas.pxratio = window.devicePixelRatio, r.tmp.retina = !0) :
+            (r.canvas.pxratio = 1, r.tmp.retina = !1), r.canvas.w = r.canvas.el.offsetWidth * r.canvas.pxratio, r.canvas
+            .h = r.canvas.el.offsetHeight * r.canvas.pxratio, r.particles.size.value = r.tmp.obj.size_value * r.canvas.pxratio,
+            r.particles.size.anim.speed = r.tmp.obj.size_anim_speed * r.canvas.pxratio, r.particles.move.speed = r.tmp.obj
+            .move_speed * r.canvas.pxratio, r.particles.line_linked.distance = r.tmp.obj.line_linked_distance * r.canvas
+            .pxratio, r.interactivity.modes.grab.distance = r.tmp.obj.mode_grab_distance * r.canvas.pxratio, r.interactivity
+            .modes.bubble.distance = r.tmp.obj.mode_bubble_distance * r.canvas.pxratio, r.particles.line_linked.width =
+            r.tmp.obj.line_linked_width * r.canvas.pxratio, r.interactivity.modes.bubble.size = r.tmp.obj.mode_bubble_size *
+            r.canvas.pxratio, r.interactivity.modes.repulse.distance = r.tmp.obj.mode_repulse_distance * r.canvas.pxratio
+    }, r.fn.canvasInit = function () {
+        r.canvas.ctx = r.canvas.el.getContext("2d")
+    }, r.fn.canvasSize = function () {
+        r.canvas.el.width = r.canvas.w, r.canvas.el.height = r.canvas.h, r && r.interactivity.events.resize && window.addEventListener(
+            "resize", function () {
+            r.canvas.w = r.canvas.el.offsetWidth, r.canvas.h = r.canvas.el.offsetHeight, r.tmp.retina && (r.canvas.w *=
+                r.canvas.pxratio, r.canvas.h *= r.canvas.pxratio), r.canvas.el.width = r.canvas.w, r.canvas.el.height =
+                r.canvas.h, r.particles.move.enable || (r.fn.particlesEmpty(), r.fn.particlesCreate(), r.fn.particlesDraw(),
+                r.fn.vendors.densityAutoParticles()), r.fn.vendors.densityAutoParticles()
+        })
+    }, r.fn.canvasPaint = function () {
+        r.canvas.ctx.fillRect(0, 0, r.canvas.w, r.canvas.h)
+    }, r.fn.canvasClear = function () {
+        r.canvas.ctx.clearRect(0, 0, r.canvas.w, r.canvas.h)
+    }, r.fn.particle = function (e, t, n) {
+        if (this.radius = (r.particles.size.random ? Math.random() : 1) * r.particles.size.value, r.particles.size.anim
+            .enable && (this.size_status = !1, this.vs = r.particles.size.anim.speed / 100, r.particles.size.anim.sync ||
+            (this.vs = this.vs * Math.random())), this.x = n ? n.x : Math.random() * r.canvas.w, this.y = n ? n.y :
+            Math.random() * r.canvas.h, this.x > r.canvas.w - 2 * this.radius ? this.x = this.x - this.radius : this.x <
+            2 * this.radius && (this.x = this.x + this.radius), this.y > r.canvas.h - 2 * this.radius ? this.y = this.y -
+            this.radius : this.y < 2 * this.radius && (this.y = this.y + this.radius), r.particles.move.bounce && r.fn.vendors
+            .checkOverlap(this, n), this.color = {}, "object" == typeof e.value) if (e.value instanceof Array) {
+                var s = e.value[Math.floor(Math.random() * r.particles.color.value.length)];
+                this.color.rgb = hexToRgb(s)
+            } else void 0 != e.value.r && void 0 != e.value.g && void 0 != e.value.b && (this.color.rgb = {
+                    r: e.value.r,
+                    g: e.value.g,
+                    b: e.value.b
+                }), void 0 != e.value.h && void 0 != e.value.s && void 0 != e.value.l && (this.color.hsl = {
+                    h: e.value.h,
+                    s: e.value.s,
+                    l: e.value.l
+                });
+            else "random" == e.value ? this.color.rgb = {
+                    r: Math.floor(256 * Math.random()) + 0,
+                    g: Math.floor(256 * Math.random()) + 0,
+                    b: Math.floor(256 * Math.random()) + 0
+            }: "string" == typeof e.value && (this.color = e, this.color.rgb = hexToRgb(this.color.value));
+        this.opacity = (r.particles.opacity.random ? Math.random() : 1) * r.particles.opacity.value, r.particles.opacity
+            .anim.enable && (this.opacity_status = !1, this.vo = r.particles.opacity.anim.speed / 100, r.particles.opacity
+            .anim.sync || (this.vo = this.vo * Math.random()));
+        var o = {};
+        switch (r.particles.move.direction) {
+        case "top":
+            o = {
+                x: 0,
+                y: -1
+            };
+            break;
+        case "top-right":
+            o = {
+                x: .5,
+                y: -0.5
+            };
+            break;
+        case "right":
+            o = {
+                x: 1,
+                y: 0
+            };
+            break;
+        case "bottom-right":
+            o = {
+                x: .5,
+                y: .5
+            };
+            break;
+        case "bottom":
+            o = {
+                x: 0,
+                y: 1
+            };
+            break;
+        case "bottom-left":
+            o = {
+                x: -0.5,
+                y: 1
+            };
+            break;
+        case "left":
+            o = {
+                x: -1,
+                y: 0
+            };
+            break;
+        case "top-left":
+            o = {
+                x: -0.5,
+                y: -0.5
+            };
+            break;
+        default:
+            o = {
+                x: 0,
+                y: 0
+            }
+        }
+        r.particles.move.straight ? (this.vx = o.x, this.vy = o.y, r.particles.move.random && (this.vx = this.vx * Math
+            .random(), this.vy = this.vy * Math.random())) : (this.vx = o.x + Math.random() - .5, this.vy = o.y + Math.random() -
+            .5), this.vx_i = this.vx, this.vy_i = this.vy;
+        var u = r.particles.shape.type;
+        if ("object" == typeof u) {
+            if (u instanceof Array) {
+                var a = u[Math.floor(Math.random() * u.length)];
+                this.shape = a
+            }
+        } else this.shape = u; if ("image" == this.shape) {
+            var f = r.particles.shape;
+            this.img = {
+                src: f.image.src,
+                ratio: f.image.width / f.image.height
+            }, this.img.ratio || (this.img.ratio = 1), "svg" == r.tmp.img_type && void 0 != r.tmp.source_svg && (r.fn.vendors
+                .createSvgImg(this), r.tmp.pushing && (this.img.loaded = !1))
+        }
+    }, r.fn.particle.prototype.draw = function () {
+        function e() {
+            r.canvas.ctx.drawImage(u, t.x - n, t.y - n, 2 * n, 2 * n / t.img.ratio)
+        }
+        var t = this;
+        if (void 0 != t.radius_bubble) var n = t.radius_bubble;
+        else var n = t.radius; if (void 0 != t.opacity_bubble) var s = t.opacity_bubble;
+        else var s = t.opacity; if (t.color.rgb) var o = "rgba(" + t.color.rgb.r + "," + t.color.rgb.g + "," + t.color.rgb
+                .b + "," + s + ")";
+        else var o = "hsla(" + t.color.hsl.h + "," + t.color.hsl.s + "%," + t.color.hsl.l + "%," + s + ")";
+        switch (r.canvas.ctx.fillStyle = o, r.canvas.ctx.beginPath(), t.shape) {
+        case "circle":
+            r.canvas.ctx.arc(t.x, t.y, n, 0, 2 * Math.PI, !1);
+            break;
+        case "edge":
+            r.canvas.ctx.rect(t.x - n, t.y - n, 2 * n, 2 * n);
+            break;
+        case "triangle":
+            r.fn.vendors.drawShape(r.canvas.ctx, t.x - n, t.y + n / 1.66, 2 * n, 3, 2);
+            break;
+        case "polygon":
+            r.fn.vendors.drawShape(r.canvas.ctx, t.x - n / (r.particles.shape.polygon.nb_sides / 3.5), t.y - n / .76, 2.66 * n / (r.particles.shape.polygon.nb_sides / 3), r.particles.shape.polygon.nb_sides, 1);
+            break;
+        case "star":
+            r.fn.vendors.drawShape(r.canvas.ctx, t.x - 2 * n / (r.particles.shape.polygon.nb_sides / 4), t.y - n / 1.52,
+                2 * n * 2.66 / (r.particles.shape.polygon.nb_sides / 3), r.particles.shape.polygon.nb_sides, 2);
+            break;
+        case "image":
+            if ("svg" == r.tmp.img_type) var u = t.img.obj;
+            else var u = r.tmp.img_obj;
+            u && e()
+        }
+        r.canvas.ctx.closePath(), r.particles.shape.stroke.width > 0 && (r.canvas.ctx.strokeStyle = r.particles.shape.stroke
+            .color, r.canvas.ctx.lineWidth = r.particles.shape.stroke.width, r.canvas.ctx.stroke()), r.canvas.ctx.fill()
+    }, r.fn.particlesCreate = function () {
+        for (var e = 0; e < r.particles.number.value; e++) r.particles.array.push(new r.fn.particle(r.particles.color,
+                r.particles.opacity.value))
+    }, r.fn.particlesUpdate = function () {
+        for (var e = 0; e < r.particles.array.length; e++) {
+            var t = r.particles.array[e];
+            if (r.particles.move.enable) {
+                var n = r.particles.move.speed / 2;
+                t.x += t.vx * n, t.y += t.vy * n
+            }
+            if (r.particles.opacity.anim.enable && (1 == t.opacity_status ? (t.opacity >= r.particles.opacity.value &&
+                (t.opacity_status = !1), t.opacity += t.vo) : (t.opacity <= r.particles.opacity.anim.opacity_min && (t.opacity_status = !
+                0), t.opacity -= t.vo), t.opacity < 0 && (t.opacity = 0)), r.particles.size.anim.enable && (1 == t.size_status ?
+                (t.radius >= r.particles.size.value && (t.size_status = !1), t.radius += t.vs) : (t.radius <= r.particles
+                .size.anim.size_min && (t.size_status = !0), t.radius -= t.vs), t.radius < 0 && (t.radius = 0)),
+                "bounce" == r.particles.move.out_mode) var s = {
+                    x_left: t.radius,
+                    x_right: r.canvas.w,
+                    y_top: t.radius,
+                    y_bottom: r.canvas.h
+            };
+            else var s = {
+                    x_left: -t.radius,
+                    x_right: r.canvas.w + t.radius,
+                    y_top: -t.radius,
+                    y_bottom: r.canvas.h + t.radius
+            };
+            switch (t.x - t.radius > r.canvas.w ? (t.x = s.x_left, t.y = Math.random() * r.canvas.h) : t.x + t.radius <
+                0 && (t.x = s.x_right, t.y = Math.random() * r.canvas.h), t.y - t.radius > r.canvas.h ? (t.y = s.y_top,
+                t.x = Math.random() * r.canvas.w) : t.y + t.radius < 0 && (t.y = s.y_bottom, t.x = Math.random() * r.canvas
+                .w), r.particles.move.out_mode) {
+            case "bounce":
+                t.x + t.radius > r.canvas.w ? t.vx = -t.vx : t.x - t.radius < 0 && (t.vx = -t.vx), t.y + t.radius > r.canvas
+                    .h ? t.vy = -t.vy : t.y - t.radius < 0 && (t.vy = -t.vy)
+            }
+            if (isInArray("grab", r.interactivity.events.onhover.mode) && r.fn.modes.grabParticle(t), (isInArray(
+                "bubble", r.interactivity.events.onhover.mode) || isInArray("bubble", r.interactivity.events.onclick.mode)) &&
+                r.fn.modes.bubbleParticle(t), (isInArray("repulse", r.interactivity.events.onhover.mode) || isInArray(
+                "repulse", r.interactivity.events.onclick.mode)) && r.fn.modes.repulseParticle(t), r.particles.line_linked
+                .enable || r.particles.move.attract.enable) for (var o = e + 1; o < r.particles.array.length; o++) {
+                    var u = r.particles.array[o];
+                    r.particles.line_linked.enable && r.fn.interact.linkParticles(t, u), r.particles.move.attract.enable &&
+                        r.fn.interact.attractParticles(t, u), r.particles.move.bounce && r.fn.interact.bounceParticles(
+                        t, u)
+            }
+        }
+    }, r.fn.particlesDraw = function () {
+        r.canvas.ctx.clearRect(0, 0, r.canvas.w, r.canvas.h), r.fn.particlesUpdate();
+        for (var e = 0; e < r.particles.array.length; e++) {
+            var t = r.particles.array[e];
+            t.draw()
+        }
+    }, r.fn.particlesEmpty = function () {
+        r.particles.array = []
+    }, r.fn.particlesRefresh = function () {
+        cancelRequestAnimFrame(r.fn.checkAnimFrame), cancelRequestAnimFrame(r.fn.drawAnimFrame), r.tmp.source_svg =
+            void 0, r.tmp.img_obj = void 0, r.tmp.count_svg = 0, r.fn.particlesEmpty(), r.fn.canvasClear(), r.fn.vendors
+            .start()
+    }, r.fn.interact.linkParticles = function (e, t) {
+        var n = e.x - t.x,
+            s = e.y - t.y,
+            o = Math.sqrt(n * n + s * s);
+        if (o <= r.particles.line_linked.distance) {
+            var u = r.particles.line_linked.opacity - o / (1 / r.particles.line_linked.opacity) / r.particles.line_linked
+                .distance;
+            if (u > 0) {
+                var a = r.particles.line_linked.color_rgb_line;
+                r.canvas.ctx.strokeStyle = "rgba(" + a.r + "," + a.g + "," + a.b + "," + u + ")", r.canvas.ctx.lineWidth =
+                    r.particles.line_linked.width, r.canvas.ctx.beginPath(), r.canvas.ctx.moveTo(e.x, e.y), r.canvas.ctx
+                    .lineTo(t.x, t.y), r.canvas.ctx.stroke(), r.canvas.ctx.closePath()
+            }
+        }
+    }, r.fn.interact.attractParticles = function (e, t) {
+        var n = e.x - t.x,
+            s = e.y - t.y,
+            o = Math.sqrt(n * n + s * s);
+        if (o <= r.particles.line_linked.distance) {
+            var u = n / (1e3 * r.particles.move.attract.rotateX),
+                a = s / (1e3 * r.particles.move.attract.rotateY);
+            e.vx -= u, e.vy -= a, t.vx += u, t.vy += a
+        }
+    }, r.fn.interact.bounceParticles = function (e, t) {
+        var n = e.x - t.x,
+            r = e.y - t.y,
+            i = Math.sqrt(n * n + r * r),
+            s = e.radius + t.radius;
+        s >= i && (e.vx = -e.vx, e.vy = -e.vy, t.vx = -t.vx, t.vy = -t.vy)
+    }, r.fn.modes.pushParticles = function (e, t) {
+        r.tmp.pushing = !0;
+        for (var n = 0; e > n; n++) r.particles.array.push(new r.fn.particle(r.particles.color, r.particles.opacity.value, {
+                x: t ? t.pos_x : Math.random() * r.canvas.w,
+                y: t ? t.pos_y : Math.random() * r.canvas.h
+            })), n == e - 1 && (r.particles.move.enable || r.fn.particlesDraw(), r.tmp.pushing = !1)
+    }, r.fn.modes.removeParticles = function (e) {
+        r.particles.array.splice(0, e), r.particles.move.enable || r.fn.particlesDraw()
+    }, r.fn.modes.bubbleParticle = function (e) {
+        function t() {
+            e.opacity_bubble = e.opacity, e.radius_bubble = e.radius
+        }
+        function n(t, n, s, o, a) {
+            if (t != n) if (r.tmp.bubble_duration_end) {
+                    if (void 0 != s) {
+                        var f = o - h * (o - t) / r.interactivity.modes.bubble.duration,
+                            l = t - f;
+                        d = t + l, "size" == a && (e.radius_bubble = d), "opacity" == a && (e.opacity_bubble = d)
+                    }
+                } else if (u <= r.interactivity.modes.bubble.distance) {
+                if (void 0 != s) var c = s;
+                else var c = o; if (c != t) {
+                    var d = o - h * (o - t) / r.interactivity.modes.bubble.duration;
+                    "size" == a && (e.radius_bubble = d), "opacity" == a && (e.opacity_bubble = d)
+                }
+            } else "size" == a && (e.radius_bubble = void 0), "opacity" == a && (e.opacity_bubble = void 0)
+        }
+        if (r.interactivity.events.onhover.enable && isInArray("bubble", r.interactivity.events.onhover.mode)) {
+            var s = e.x - r.interactivity.mouse.pos_x,
+                o = e.y - r.interactivity.mouse.pos_y,
+                u = Math.sqrt(s * s + o * o),
+                a = 1 - u / r.interactivity.modes.bubble.distance;
+            if (u <= r.interactivity.modes.bubble.distance) {
+                if (a >= 0 && "mousemove" == r.interactivity.status) {
+                    if (r.interactivity.modes.bubble.size != r.particles.size.value) if (r.interactivity.modes.bubble.size >
+                            r.particles.size.value) {
+                            var f = e.radius + r.interactivity.modes.bubble.size * a;
+                            f >= 0 && (e.radius_bubble = f)
+                        } else {
+                            var l = e.radius - r.interactivity.modes.bubble.size,
+                                f = e.radius - l * a;
+                            f > 0 ? e.radius_bubble = f : e.radius_bubble = 0
+                        }
+                    if (r.interactivity.modes.bubble.opacity != r.particles.opacity.value) if (r.interactivity.modes.bubble
+                            .opacity > r.particles.opacity.value) {
+                            var c = r.interactivity.modes.bubble.opacity * a;
+                            c > e.opacity && c <= r.interactivity.modes.bubble.opacity && (e.opacity_bubble = c)
+                        } else {
+                            var c = e.opacity - (r.particles.opacity.value - r.interactivity.modes.bubble.opacity) * a;
+                            c < e.opacity && c >= r.interactivity.modes.bubble.opacity && (e.opacity_bubble = c)
+                        }
+                }
+            } else t();
+            "mouseleave" == r.interactivity.status && t()
+        } else if (r.interactivity.events.onclick.enable && isInArray("bubble", r.interactivity.events.onclick.mode)) {
+            if (r.tmp.bubble_clicking) {
+                var s = e.x - r.interactivity.mouse.click_pos_x,
+                    o = e.y - r.interactivity.mouse.click_pos_y,
+                    u = Math.sqrt(s * s + o * o),
+                    h = ((new Date).getTime() - r.interactivity.mouse.click_time) / 1e3;
+                h > r.interactivity.modes.bubble.duration && (r.tmp.bubble_duration_end = !0), h > 2 * r.interactivity.modes
+                    .bubble.duration && (r.tmp.bubble_clicking = !1, r.tmp.bubble_duration_end = !1)
+            }
+            r.tmp.bubble_clicking && (n(r.interactivity.modes.bubble.size, r.particles.size.value, e.radius_bubble, e.radius,
+                "size"), n(r.interactivity.modes.bubble.opacity, r.particles.opacity.value, e.opacity_bubble, e.opacity,
+                "opacity"))
+        }
+    }, r.fn.modes.repulseParticle = function (e) {
+        function t() {
+            var t = Math.atan2(p, h);
+            if (e.vx = v * Math.cos(t), e.vy = v * Math.sin(t), "bounce" == r.particles.move.out_mode) {
+                var n = {
+                    x: e.x + e.vx,
+                    y: e.y + e.vy
+                };
+                n.x + e.radius > r.canvas.w ? e.vx = -e.vx : n.x - e.radius < 0 && (e.vx = -e.vx), n.y + e.radius > r.canvas
+                    .h ? e.vy = -e.vy : n.y - e.radius < 0 && (e.vy = -e.vy)
+            }
+        }
+        if (r.interactivity.events.onhover.enable && isInArray("repulse", r.interactivity.events.onhover.mode) &&
+            "mousemove" == r.interactivity.status) {
+            var n = e.x - r.interactivity.mouse.pos_x,
+                s = e.y - r.interactivity.mouse.pos_y,
+                o = Math.sqrt(n * n + s * s),
+                u = {
+                    x: n / o,
+                    y: s / o
+                }, a = r.interactivity.modes.repulse.distance,
+                f = 100,
+                l = clamp(1 / a * (-1 * Math.pow(o / a, 2) + 1) * a * f, 0, 50),
+                c = {
+                    x: e.x + u.x * l,
+                    y: e.y + u.y * l
+                };
+            "bounce" == r.particles.move.out_mode ? (c.x - e.radius > 0 && c.x + e.radius < r.canvas.w && (e.x = c.x),
+                c.y - e.radius > 0 && c.y + e.radius < r.canvas.h && (e.y = c.y)) : (e.x = c.x, e.y = c.y)
+        } else if (r.interactivity.events.onclick.enable && isInArray("repulse", r.interactivity.events.onclick.mode))
+            if (r.tmp.repulse_finish || (r.tmp.repulse_count++, r.tmp.repulse_count == r.particles.array.length && (r.tmp
+                .repulse_finish = !0)), r.tmp.repulse_clicking) {
+                var a = Math.pow(r.interactivity.modes.repulse.distance / 6, 3),
+                    h = r.interactivity.mouse.click_pos_x - e.x,
+                    p = r.interactivity.mouse.click_pos_y - e.y,
+                    d = h * h + p * p,
+                    v = -a / d * 1;
+                a >= d && t()
+            } else 0 == r.tmp.repulse_clicking && (e.vx = e.vx_i, e.vy = e.vy_i)
+    }, r.fn.modes.grabParticle = function (e) {
+        if (r.interactivity.events.onhover.enable && "mousemove" == r.interactivity.status) {
+            var t = e.x - r.interactivity.mouse.pos_x,
+                n = e.y - r.interactivity.mouse.pos_y,
+                s = Math.sqrt(t * t + n * n);
+            if (s <= r.interactivity.modes.grab.distance) {
+                var o = r.interactivity.modes.grab.line_linked.opacity - s / (1 / r.interactivity.modes.grab.line_linked
+                    .opacity) / r.interactivity.modes.grab.distance;
+                if (o > 0) {
+                    var u = r.particles.line_linked.color_rgb_line;
+                    r.canvas.ctx.strokeStyle = "rgba(" + u.r + "," + u.g + "," + u.b + "," + o + ")", r.canvas.ctx.lineWidth =
+                        r.particles.line_linked.width, r.canvas.ctx.beginPath(), r.canvas.ctx.moveTo(e.x, e.y), r.canvas
+                        .ctx.lineTo(r.interactivity.mouse.pos_x, r.interactivity.mouse.pos_y), r.canvas.ctx.stroke(), r
+                        .canvas.ctx.closePath()
+                }
+            }
+        }
+    }, r.fn.vendors.eventsListeners = function () {
+        "window" == r.interactivity.detect_on ? r.interactivity.el = window : r.interactivity.el = r.canvas.el, (r.interactivity
+            .events.onhover.enable || r.interactivity.events.onclick.enable) && (r.interactivity.el.addEventListener(
+            "mousemove", function (e) {
+            if (r.interactivity.el == window) var t = e.clientX,
+            n = e.clientY;
+            else var t = e.offsetX || e.clientX,
+            n = e.offsetY || e.clientY;
+            r.interactivity.mouse.pos_x = t, r.interactivity.mouse.pos_y = n, r.tmp.retina && (r.interactivity.mouse.pos_x *=
+                r.canvas.pxratio, r.interactivity.mouse.pos_y *= r.canvas.pxratio), r.interactivity.status =
+                "mousemove"
+        }), r.interactivity.el.addEventListener("mouseleave", function (e) {
+            r.interactivity.mouse.pos_x = null, r.interactivity.mouse.pos_y = null, r.interactivity.status =
+                "mouseleave"
+        })), r.interactivity.events.onclick.enable && r.interactivity.el.addEventListener("click", function () {
+            if (r.interactivity.mouse.click_pos_x = r.interactivity.mouse.pos_x, r.interactivity.mouse.click_pos_y = r.interactivity
+                .mouse.pos_y, r.interactivity.mouse.click_time = (new Date).getTime(), r.interactivity.events.onclick.enable)
+                switch (r.interactivity.events.onclick.mode) {
+                case "push":
+                    r.particles.move.enable ? r.fn.modes.pushParticles(r.interactivity.modes.push.particles_nb, r.interactivity
+                        .mouse) : 1 == r.interactivity.modes.push.particles_nb ? r.fn.modes.pushParticles(r.interactivity
+                        .modes.push.particles_nb, r.interactivity.mouse) : r.interactivity.modes.push.particles_nb > 1 &&
+                        r.fn.modes.pushParticles(r.interactivity.modes.push.particles_nb);
+                    break;
+                case "remove":
+                    r.fn.modes.removeParticles(r.interactivity.modes.remove.particles_nb);
+                    break;
+                case "bubble":
+                    r.tmp.bubble_clicking = !0;
+                    break;
+                case "repulse":
+                    r.tmp.repulse_clicking = !0, r.tmp.repulse_count = 0, r.tmp.repulse_finish = !1, setTimeout(function () {
+                        r.tmp.repulse_clicking = !1
+                    }, 1e3 * r.interactivity.modes.repulse.duration)
+            }
+        })
+    }, r.fn.vendors.densityAutoParticles = function () {
+        if (r.particles.number.density.enable) {
+            var e = r.canvas.el.width * r.canvas.el.height / 1e3;
+            r.tmp.retina && (e /= 2 * r.canvas.pxratio);
+            var t = e * r.particles.number.value / r.particles.number.density.value_area,
+                n = r.particles.array.length - t;
+            0 > n ? r.fn.modes.pushParticles(Math.abs(n)) : r.fn.modes.removeParticles(n)
+        }
+    }, r.fn.vendors.checkOverlap = function (e, t) {
+        for (var n = 0; n < r.particles.array.length; n++) {
+            var s = r.particles.array[n],
+                o = e.x - s.x,
+                u = e.y - s.y,
+                a = Math.sqrt(o * o + u * u);
+            a <= e.radius + s.radius && (e.x = t ? t.x : Math.random() * r.canvas.w, e.y = t ? t.y : Math.random() * r.canvas
+                .h, r.fn.vendors.checkOverlap(e))
+        }
+    }, r.fn.vendors.createSvgImg = function (e) {
+        var t = r.tmp.source_svg,
+            n = /#([0-9A-F]{3,6})/gi,
+            s = t.replace(n, function (t, n, r, i) {
+                if (e.color.rgb) var s = "rgba(" + e.color.rgb.r + "," + e.color.rgb.g + "," + e.color.rgb.b + "," + e.opacity +
+                        ")";
+                else var s = "hsla(" + e.color.hsl.h + "," + e.color.hsl.s + "%," + e.color.hsl.l + "%," + e.opacity +
+                        ")";
+                return s
+            }),
+            o = new Blob([s], {
+                type: "image/svg+xml;charset=utf-8"
+            }),
+            u = window.URL || window.webkitURL || window,
+            a = u.createObjectURL(o),
+            f = new Image;
+        f.addEventListener("load", function () {
+            e.img.obj = f, e.img.loaded = !0, u.revokeObjectURL(a), r.tmp.count_svg++
+        }), f.src = a
+    }, r.fn.vendors.destroypJS = function () {
+        cancelAnimationFrame(r.fn.drawAnimFrame), n.remove(), pJSDom = null
+    }, r.fn.vendors.drawShape = function (e, t, n, r, i, s) {
+        var o = i * s,
+            u = i / s,
+            a = 180 * (u - 2) / u,
+            f = Math.PI - Math.PI * a / 180;
+        e.save(), e.beginPath(), e.translate(t, n), e.moveTo(0, 0);
+        for (var l = 0; o > l; l++) e.lineTo(r, 0), e.translate(r, 0), e.rotate(f);
+        e.fill(), e.restore()
+    }, r.fn.vendors.exportImg = function () {
+        window.open(r.canvas.el.toDataURL("image/png"), "_blank")
+    }, r.fn.vendors.loadImg = function (e) {
+        if (r.tmp.img_error = void 0, "" != r.particles.shape.image.src) if ("svg" == e) {
+                var t = new XMLHttpRequest;
+                t.open("GET", r.particles.shape.image.src), t.onreadystatechange = function (e) {
+                    4 == t.readyState && (200 == t.status ? (r.tmp.source_svg = e.currentTarget.response, r.fn.vendors.checkBeforeDraw()) :
+                        (console.log("Error pJS - Image not found"), r.tmp.img_error = !0))
+                }, t.send()
+            } else {
+                var n = new Image;
+                n.addEventListener("load", function () {
+                    r.tmp.img_obj = n, r.fn.vendors.checkBeforeDraw()
+                }), n.src = r.particles.shape.image.src
+            } else console.log("Error pJS - No image.src"), r.tmp.img_error = !0
+    }, r.fn.vendors.draw = function () {
+        "image" == r.particles.shape.type ? "svg" == r.tmp.img_type ? r.tmp.count_svg >= r.particles.number.value ? (r.fn
+            .particlesDraw(), r.particles.move.enable ? r.fn.drawAnimFrame = requestAnimFrame(r.fn.vendors.draw) :
+            cancelRequestAnimFrame(r.fn.drawAnimFrame)) : r.tmp.img_error || (r.fn.drawAnimFrame = requestAnimFrame(r.fn
+            .vendors.draw)) : void 0 != r.tmp.img_obj ? (r.fn.particlesDraw(), r.particles.move.enable ? r.fn.drawAnimFrame =
+            requestAnimFrame(r.fn.vendors.draw) : cancelRequestAnimFrame(r.fn.drawAnimFrame)) : r.tmp.img_error || (r.fn
+            .drawAnimFrame = requestAnimFrame(r.fn.vendors.draw)) : (r.fn.particlesDraw(), r.particles.move.enable ? r.fn
+            .drawAnimFrame = requestAnimFrame(r.fn.vendors.draw) : cancelRequestAnimFrame(r.fn.drawAnimFrame))
+    }, r.fn.vendors.checkBeforeDraw = function () {
+        "image" == r.particles.shape.type ? "svg" == r.tmp.img_type && void 0 == r.tmp.source_svg ? r.tmp.checkAnimFrame =
+            requestAnimFrame(check) : (cancelRequestAnimFrame(r.tmp.checkAnimFrame), r.tmp.img_error || (r.fn.vendors.init(),
+            r.fn.vendors.draw())) : (r.fn.vendors.init(), r.fn.vendors.draw())
+    }, r.fn.vendors.init = function () {
+        r.fn.retinaInit(), r.fn.canvasInit(), r.fn.canvasSize(), r.fn.canvasPaint(), r.fn.particlesCreate(), r.fn.vendors
+            .densityAutoParticles(), r.particles.line_linked.color_rgb_line = hexToRgb(r.particles.line_linked.color)
+    }, r.fn.vendors.start = function () {
+        isInArray("image", r.particles.shape.type) ? (r.tmp.img_type = r.particles.shape.image.src.substr(r.particles.shape
+            .image.src.length - 3), r.fn.vendors.loadImg(r.tmp.img_type)) : r.fn.vendors.checkBeforeDraw()
+    }, r.fn.vendors.eventsListeners(), r.fn.vendors.start()
+};
+Object.deepExtend = function (e, t) {
+    for (var n in t) t[n] && t[n].constructor && t[n].constructor === Object ? (e[n] = e[n] || {}, arguments.callee(e[n],
+            t[n])) : e[n] = t[n];
+    return e
+}, window.requestAnimFrame = function () {
+    return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame || window.msRequestAnimationFrame || function (e) {
+        window.setTimeout(e, 1e3 / 60)
+    }
+}(), window.cancelRequestAnimFrame = function () {
+    return window.cancelAnimationFrame || window.webkitCancelRequestAnimationFrame || window.mozCancelRequestAnimationFrame ||
+        window.oCancelRequestAnimationFrame || window.msCancelRequestAnimationFrame || clearTimeout
+}(), window.pJSDom = [], window.particlesJS = function (e, t) {
+    "string" != typeof e && (t = e, e = "particles-js"), e || (e = "particles-js");
+    var n = document.getElementById(e),
+        r = "particles-js-canvas-el",
+        i = n.getElementsByClassName(r);
+    if (i.length) for (; i.length > 0;) n.removeChild(i[0]);
+    var s = document.createElement("canvas");
+    s.className = r, s.style.width = "100%", s.style.height = "100%";
+    var o = document.getElementById(e).appendChild(s);
+    null != o && pJSDom.push(new pJS(e, t))
+}, window.particlesJS.load = function (e, t, n) {
+    var r = new XMLHttpRequest;
+    r.open("GET", t), r.onreadystatechange = function (t) {
+        if (4 == r.readyState) if (200 == r.status) {
+                var s = JSON.parse(t.currentTarget.response);
+                window.particlesJS(e, s), n && n()
+            } else console.log("Error pJS - XMLHttpRequest status: " + r.status), console.log(
+                    "Error pJS - File config not found")
+    }, r.send()
+};
 </script>
-</html>
+<script type="text/javascript">
+        /* particlesJS.load(@dom-id, @path-json, @callback (optional)); */
+        particlesJS.load('particles-js', 'assets/particles.json', function() {
+            console.log('callback - particles.js config loaded');
+        });
+    </script>
+
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+        var duoshuoQuery = {short_name:"novaui"};
+        (function() {
+        var wid = 'index';
+        $('.ds-thread').data('thread-key', wid).data('title', 'novaUI移动端组件').data('url', location.href);
+         var ds = document.createElement('script');
+         ds.type = 'text/javascript';ds.async = true;
+         ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+         ds.charset = 'UTF-8';
+         (document.getElementsByTagName('head')[0] 
+          || document.getElementsByTagName('body')[0]).appendChild(ds);
+         })();
+
+    </script>
