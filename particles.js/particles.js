@@ -242,9 +242,11 @@ var pJS = function(tag_id, params){
 
     /* size */
     this.radius = (pJS.particles.size.random ? Math.random() : 1) * pJS.particles.size.value;
+    /*节点大小动画*/
     if(pJS.particles.size.anim.enable){
       this.size_status = false;
       this.vs = pJS.particles.size.anim.speed / 100;
+      /*是否同步变化*/
       if(!pJS.particles.size.anim.sync){
         this.vs = this.vs * Math.random();
       }
@@ -255,20 +257,23 @@ var pJS = function(tag_id, params){
     this.y = position ? position.y : Math.random() * pJS.canvas.h;
 
     /* check position  - into the canvas */
-    if(this.x > pJS.canvas.w - this.radius*2) this.x = this.x - this.radius;
-    else if(this.x < this.radius*2) this.x = this.x + this.radius;
-    if(this.y > pJS.canvas.h - this.radius*2) this.y = this.y - this.radius;
-    else if(this.y < this.radius*2) this.y = this.y + this.radius;
+    /*左边界，上边界*/
+    if(this.x > pJS.canvas.w - this.radius*2) this.x = this.x - this.radius*2;
+    else if(this.x < this.radius*2) this.x = this.x + this.radius*2;
+    if(this.y > pJS.canvas.h - this.radius*2) this.y = this.y - this.radius*2;
+    else if(this.y < this.radius*2) this.y = this.y + this.radius*2;
 
     /* check position - avoid overlap */
+    /*重叠处理*/
     if(pJS.particles.move.bounce){
       pJS.fn.vendors.checkOverlap(this, position);
     }
 
     /* color */
+    /*多色值处理,转为rgb格式*/
     this.color = {};
     if(typeof(color.value) == 'object'){
-
+      
       if(color.value instanceof Array){
         var color_selected = color.value[Math.floor(Math.random() * pJS.particles.color.value.length)];
         this.color.rgb = hexToRgb(color_selected);
@@ -304,6 +309,7 @@ var pJS = function(tag_id, params){
 
     /* opacity */
     this.opacity = (pJS.particles.opacity.random ? Math.random() : 1) * pJS.particles.opacity.value;
+    /*布灵布灵效果*/
     if(pJS.particles.opacity.anim.enable){
       this.opacity_status = false;
       this.vo = pJS.particles.opacity.anim.speed / 100;
@@ -313,6 +319,7 @@ var pJS = function(tag_id, params){
     }
 
     /* animation - velocity for speed */
+    /*移动方向*/
     var velbase = {}
     switch(pJS.particles.move.direction){
       case 'top':
@@ -622,6 +629,7 @@ var pJS = function(tag_id, params){
           }
 
           /* bounce particles */
+          /*回弹效果*/
           if(pJS.particles.move.bounce){
             pJS.fn.interact.bounceParticles(p,p2);
           }
@@ -749,7 +757,7 @@ var pJS = function(tag_id, params){
 
 
   /* ---------- pJS functions - modes events ------------ */
-
+  /*添加节点*/
   pJS.fn.modes.pushParticles = function(nb, pos){
 
     pJS.tmp.pushing = true;
@@ -775,7 +783,7 @@ var pJS = function(tag_id, params){
 
   };
 
-
+  /*移除节点*/
   pJS.fn.modes.removeParticles = function(nb){
 
     pJS.particles.array.splice(0, nb);
@@ -785,7 +793,7 @@ var pJS = function(tag_id, params){
 
   };
 
-
+  /*泡泡效果*/
   pJS.fn.modes.bubbleParticle = function(p){
 
     /* on hover event */
@@ -808,13 +816,14 @@ var pJS = function(tag_id, params){
           
           /* size */
           if(pJS.interactivity.modes.bubble.size != pJS.particles.size.value){
-
+            /*如果bubble大小比正常颗粒大，最大：现在的大小+bubble缩放的尺寸*/
             if(pJS.interactivity.modes.bubble.size > pJS.particles.size.value){
               var size = p.radius + (pJS.interactivity.modes.bubble.size*ratio);
               if(size >= 0){
                 p.radius_bubble = size;
               }
             }else{
+              /*如果bubble大小比正常颗粒小，最小：0*/
               var dif = p.radius - pJS.interactivity.modes.bubble.size,
                   size = p.radius - (dif*ratio);
               if(size > 0){
@@ -920,7 +929,7 @@ var pJS = function(tag_id, params){
 
   };
 
-
+  /*推开效果*/
   pJS.fn.modes.repulseParticle = function(p){
 
     if(pJS.interactivity.events.onhover.enable && isInArray('repulse', pJS.interactivity.events.onhover.mode) && pJS.interactivity.status == 'mousemove') {
@@ -931,7 +940,8 @@ var pJS = function(tag_id, params){
 
       var normVec = {x: dx_mouse/dist_mouse, y: dy_mouse/dist_mouse},
           repulseRadius = pJS.interactivity.modes.repulse.distance,
-          velocity = 100,
+          velocity = 100,/*速度*/
+          /*击退因素*/
           repulseFactor = clamp((1/repulseRadius)*(-1*Math.pow(dist_mouse/repulseRadius,2)+1)*repulseRadius*velocity, 0, 50);
       
       var pos = {
@@ -1172,6 +1182,7 @@ var pJS = function(tag_id, params){
       }
 
       /* calc number of particles based on density area */
+      /*单位密度内颗粒*/
       var nb_particles = area * pJS.particles.number.value / pJS.particles.number.density.value_area;
 
       /* add or remove X particles */
@@ -1187,11 +1198,11 @@ var pJS = function(tag_id, params){
   pJS.fn.vendors.checkOverlap = function(p1, position){
     for(var i = 0; i < pJS.particles.array.length; i++){
       var p2 = pJS.particles.array[i];
-
+      /*两点间距离*/
       var dx = p1.x - p2.x,
           dy = p1.y - p2.y,
           dist = Math.sqrt(dx*dx + dy*dy);
-
+      /*碰撞检测*/
       if(dist <= p1.radius + p2.radius){
         p1.x = position ? position.x : Math.random() * pJS.canvas.w;
         p1.y = position ? position.y : Math.random() * pJS.canvas.h;
@@ -1413,12 +1424,12 @@ var pJS = function(tag_id, params){
 
 /* ---------- global functions - vendors ------------ */
 
-Object.deepExtend = function(destination, source) {
+Object.deepExtend = function extend(destination, source) {
   for (var property in source) {
     if (source[property] && source[property].constructor &&
      source[property].constructor === Object) {
       destination[property] = destination[property] || {};
-      arguments.callee(destination[property], source[property]);
+      extend(destination[property], source[property]);
     } else {
       destination[property] = source[property];
     }
@@ -1516,26 +1527,5 @@ window.particlesJS = function(tag_id, params){
   if(canvas != null){
     pJSDom.push(new pJS(tag_id, params));
   }
-
-};
-
-window.particlesJS.load = function(tag_id, path_config_json, callback){
-
-  /* load json config */
-  var xhr = new XMLHttpRequest();
-  xhr.open('GET', path_config_json);
-  xhr.onreadystatechange = function (data) {
-    if(xhr.readyState == 4){
-      if(xhr.status == 200){
-        var params = JSON.parse(data.currentTarget.response);
-        window.particlesJS(tag_id, params);
-        if(callback) callback();
-      }else{
-        console.log('Error pJS - XMLHttpRequest status: '+xhr.status);
-        console.log('Error pJS - File config not found');
-      }
-    }
-  };
-  xhr.send();
 
 };

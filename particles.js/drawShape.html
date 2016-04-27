@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<canvas id="ctx" width="800" height="800" style="border: 1px solid black"></canvas>
+<script type="text/javascript">
+	var canvas = document.getElementById("ctx");
+	var ctx = canvas.getContext("2d");
+		canvas.width = canvas.width;
+		drawShape2(ctx, 100, 200, 300,7,2);
+		
+		
+	function drawShape(c, startX, startY, sideLength, sideCount){
+		var interiorAngleDegrees = (180 * (sideCount - 2)) / sideCount;
+		var interiorAngle = Math.PI - Math.PI * interiorAngleDegrees / 180; //Convert to radians
+		c.save();
+		c.beginPath();
+		c.translate(startX, startY);
+		c.moveTo(0,0);
+		for (var i = 0; i < sideCount; i++)
+		{
+			c.lineTo(sideLength,0);
+			c.translate(sideLength,0);
+			c.rotate(interiorAngle);
+		}
+		c.stroke();
+		c.restore();
+	}
+	
+	
+	function drawShape2(c, startX, startY, sideLength, sideCountNumerator, sideCountDenominator)
+	{
+		var sideCount = sideCountNumerator * sideCountDenominator;
+		var decimalSides = sideCountNumerator / sideCountDenominator;
+		var interiorAngleDegrees = (180 * (decimalSides - 2)) / decimalSides;
+		var interiorAngle = Math.PI - Math.PI * interiorAngleDegrees / 180; //Convert to radians
+		c.save();
+		c.beginPath();
+		c.translate(startX, startY);
+		c.moveTo(0,0);
+		for (var i = 0; i < sideCount; i++)
+		{
+			c.lineTo(sideLength,0);
+			c.translate(sideLength,0);
+			c.rotate(interiorAngle);
+		}
+		c.stroke();
+		c.restore();
+	}
+</script>
+</body>
+</html>
